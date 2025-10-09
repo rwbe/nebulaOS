@@ -9,6 +9,8 @@ interface StartMenuProps {
 
 const allApps: AppDefinition[] = [
   { id: 'browser', name: 'Navegador', icon: 'globe', component: 'Browser' },
+  { id: 'calculator', name: 'Calculadora', icon: 'calculator', component: 'Calculator' },
+  { id: 'calendar', name: 'Calendário', icon: 'calendar', component: 'Calendar' },
 ];
 
 export const StartMenu = ({ onClose }: StartMenuProps) => {

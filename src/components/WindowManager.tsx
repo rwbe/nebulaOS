@@ -4,12 +4,14 @@ import { Window } from './Window';
 import { BrowserApp } from './apps/BrowserApp';
 import { CalculatorApp } from './apps/CalculatorApp';
 import { CalendarApp } from './apps/CalendarApp';
+import { MailApp } from './apps/MailApp';
 
 
 const appComponents: Record<string, React.ComponentType> = {
   Browser: BrowserApp,
   Calculator: CalculatorApp,
   Calendar: CalendarApp,
+  Mail: MailApp,
 };
 
 export const WindowManager = () => {

@@ -11,6 +11,7 @@ const allApps: AppDefinition[] = [
   { id: 'browser', name: 'Navegador', icon: 'globe', component: 'Browser' },
   { id: 'calculator', name: 'Calculadora', icon: 'calculator', component: 'Calculator' },
   { id: 'calendar', name: 'Calendário', icon: 'calendar', component: 'Calendar' },
+  { id: 'mail', name: 'Email', icon: 'mail', component: 'Mail' },
 ];
 
 export const StartMenu = ({ onClose }: StartMenuProps) => {

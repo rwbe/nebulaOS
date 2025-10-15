@@ -5,6 +5,7 @@ import { BrowserApp } from './apps/BrowserApp';
 import { CalculatorApp } from './apps/CalculatorApp';
 import { CalendarApp } from './apps/CalendarApp';
 import { MailApp } from './apps/MailApp';
+import { MusicApp } from './apps/MusicApp';
 
 
 const appComponents: Record<string, React.ComponentType> = {
@@ -12,6 +13,7 @@ const appComponents: Record<string, React.ComponentType> = {
   Calculator: CalculatorApp,
   Calendar: CalendarApp,
   Mail: MailApp,
+  Music: MusicApp,
 };
 
 export const WindowManager = () => {

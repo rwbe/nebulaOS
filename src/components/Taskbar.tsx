@@ -11,8 +11,9 @@ interface TaskbarProps {
 
 const pinnedApps: AppDefinition[] = [
   { id: 'browser', name: 'Navegador', icon: 'globe', component: 'Browser', isPinned: true },
-   { id: 'mail', name: 'Email', icon: 'mail', component: 'Mail', isPinned: true },
-   { id: 'notepad', name: 'Bloco de Notas', icon: 'file-text', component: 'Notepad', isPinned: true },
+  { id: 'mail', name: 'Email', icon: 'mail', component: 'Mail', isPinned: true },
+  { id: 'notepad', name: 'Bloco de Notas', icon: 'file-text', component: 'Notepad', isPinned: true },
+  { id: 'store', name: 'Store', icon: 'shopping-bag', component: 'Store', isPinned: true },
 ];
 
 export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick }: TaskbarProps) => {

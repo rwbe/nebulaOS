@@ -9,6 +9,7 @@ import { MusicApp } from './apps/MusicApp';
 import { PhotosApp } from './apps/PhotosApp';
 import { VSCodeApp } from './apps/VSCodeApp';
 import { NotepadApp } from './apps/NotepadApp';
+import { StoreApp } from './apps/StoreApp';
 
 
 
@@ -21,6 +22,7 @@ const appComponents: Record<string, React.ComponentType> = {
   Photos: PhotosApp,
   VSCode: VSCodeApp,
   Notepad: NotepadApp,
+  Store: StoreApp,
 };
 
 export const WindowManager = () => {

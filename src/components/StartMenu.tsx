@@ -15,6 +15,7 @@ const allApps: AppDefinition[] = [
   { id: 'music', name: 'Música', icon: 'music', component: 'Music' },
   { id: 'photos', name: 'Fotos', icon: 'image', component: 'Photos' },
   { id: 'vscode', name: 'VS Code', icon: 'code', component: 'VSCode' },
+  { id: 'notepad', name: 'Bloco de Notas', icon: 'file-text', component: 'Notepad' },
   
 ];
 

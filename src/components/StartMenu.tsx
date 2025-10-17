@@ -17,6 +17,7 @@ const allApps: AppDefinition[] = [
   { id: 'vscode', name: 'VS Code', icon: 'code', component: 'VSCode' },
   { id: 'notepad', name: 'Bloco de Notas', icon: 'file-text', component: 'Notepad' },
   { id: 'store', name: 'Microsoft Store', icon: 'shopping-bag', component: 'Store' },
+  { id: 'settings', name: 'Configurações', icon: 'settings', component: 'Settings' },
   
 ];
 

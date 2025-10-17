@@ -2,6 +2,7 @@ import { Clock, Search, Wifi, Volume2, Battery } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useWindows } from '@/contexts/WindowContext';
 import { AppDefinition } from '@/types/window';
+import { CalendarPopover } from './CalendarPopover';
 
 interface TaskbarProps {
   onStartClick: () => void;
@@ -19,6 +20,7 @@ const pinnedApps: AppDefinition[] = [
 export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick }: TaskbarProps) => {
   const [time, setTime] = useState(new Date());
   const { windows, openWindow, focusWindow } = useWindows();
+   const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -97,11 +99,29 @@ export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick }:
         <Battery className="w-4 h-4" />
       </button>
 
-      {/* Clock */}
-      <button className="taskbar-btn px-3 flex flex-col items-center leading-tight">
-        <span className="text-xs font-medium">{time.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</span>
-        <span className="text-[10px] text-muted-foreground">{time.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}</span>
+       {/* Clock - Enhanced */}
+      <button 
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowCalendar(!showCalendar);
+        }}
+        className="taskbar-btn px-4 flex items-center gap-3 min-w-[140px]"
+      >
+        <div className="flex flex-col items-start leading-tight">
+          <span className="text-sm font-semibold">
+            {time.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+          </span>
+          <span className="text-[11px] text-muted-foreground">
+            {time.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })
+              .replace('.', '')}
+          </span>
+        </div>
       </button>
+
+      {/* Calendar Popover */}
+      {showCalendar && (
+        <CalendarPopover onClose={() => setShowCalendar(false)} />
+      )}
     </div>
   );
 };

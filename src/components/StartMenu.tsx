@@ -14,6 +14,7 @@ const allApps: AppDefinition[] = [
   { id: 'mail', name: 'Email', icon: 'mail', component: 'Mail' },
   { id: 'music', name: 'Música', icon: 'music', component: 'Music' },
   { id: 'photos', name: 'Fotos', icon: 'image', component: 'Photos' },
+  { id: 'vscode', name: 'VS Code', icon: 'code', component: 'VSCode' },
   
 ];
 

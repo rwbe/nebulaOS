@@ -7,6 +7,7 @@ import { CalendarApp } from './apps/CalendarApp';
 import { MailApp } from './apps/MailApp';
 import { MusicApp } from './apps/MusicApp';
 import { PhotosApp } from './apps/PhotosApp';
+import { VSCodeApp } from './apps/VSCodeApp';
 
 
 
@@ -17,6 +18,7 @@ const appComponents: Record<string, React.ComponentType> = {
   Mail: MailApp,
   Music: MusicApp,
   Photos: PhotosApp,
+  VSCode: VSCodeApp,
 };
 
 export const WindowManager = () => {

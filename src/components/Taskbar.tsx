@@ -1,4 +1,5 @@
 import { Clock, Search, Wifi, Volume2, Battery } from 'lucide-react';
+import { FiSearch } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useWindows } from '@/contexts/WindowContext';
 import { AppDefinition } from '@/types/window';
@@ -8,6 +9,7 @@ interface TaskbarProps {
   onStartClick: () => void;
   isStartMenuOpen: boolean;
   onQuickSettingsClick: () => void;
+  onSearchClick: () => void;
 }
 
 const pinnedApps: AppDefinition[] = [
@@ -17,7 +19,7 @@ const pinnedApps: AppDefinition[] = [
   { id: 'store', name: 'Store', icon: 'shopping-bag', component: 'Store', isPinned: true },
 ];
 
-export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick }: TaskbarProps) => {
+export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick, onSearchClick }: TaskbarProps) => {
   const [time, setTime] = useState(new Date());
   const { windows, openWindow, focusWindow } = useWindows();
    const [showCalendar, setShowCalendar] = useState(false);
@@ -54,9 +56,16 @@ export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick }:
         </div>
       </button>
 
-      {/* Search */}
-      <button className="taskbar-btn flex items-center gap-2 px-4" aria-label="Pesquisar">
-        <Search className="w-4 h-4" />
+     {/* Search */}
+      <button 
+        onClick={(e) => {
+          e.stopPropagation();
+          onSearchClick();
+        }}
+        className="taskbar-btn flex items-center gap-2 px-4" 
+        aria-label="Pesquisar"
+      >
+        <FiSearch className="w-4 h-4" />
         <span className="text-sm text-muted-foreground">Pesquisar</span>
       </button>
 

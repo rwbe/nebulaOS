@@ -12,6 +12,7 @@ const allApps: AppDefinition[] = [
   { id: 'mail', name: 'Email', icon: 'mail', component: 'Mail' },
   { id: 'calendar', name: 'Calendário', icon: 'calendar', component: 'Calendar' },
   { id: 'clock', name: 'Relógio', icon: 'clock', component: 'Clock' },
+  { id: 'file-manager', name: 'Gerenciador de Arquivos', icon: 'folder', component: 'FileManager' },
   { id: 'paint', name: 'Paint', icon: 'paintbrush', component: 'Paint' },
   { id: 'photos', name: 'Fotos', icon: 'image', component: 'Photos' },
   { id: 'music', name: 'Música', icon: 'music', component: 'Music' },

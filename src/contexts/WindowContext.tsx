@@ -56,7 +56,7 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }
 
       const appsToMaximize = [
-        'Browser', 'VSCode', 'Paint', 'Photos', 
+        'Browser', 'FileManager' ,'VSCode', 'Paint', 'Photos', 
         'Music', 'Settings', 'Mail', 'Store', 
         'Paint', 'Screenshot', 'Clock', 'Notepad'
       ];

@@ -73,7 +73,12 @@ export const DesktopGrid = () => {
         component: item.component,
       } as AppDefinition);
     } else if (item.type === 'folder') {
-      console.log(`Abrir pasta "${item.name}" desabilitado temporariamente.`);
+      openWindow({
+        id: 'file-manager',
+        name: 'Gerenciador de Arquivos',
+        icon: 'folder',
+        component: 'FileManager',
+      } as AppDefinition);
     }
   };
 
@@ -162,13 +167,10 @@ export const DesktopGrid = () => {
       onContextMenu={(e) => handleContextMenu(e)}
     >
       <div className="relative" style={{ height: '100%' }}>
-        <div
-          className="grid gap-2"
-          style={{
-            gridTemplateColumns: `repeat(auto-fill, ${GRID_SIZE}px)`,
-            gridAutoRows: `${GRID_SIZE}px`,
-          }}
-        >
+        <div className="grid gap-2" style={{
+          gridTemplateColumns: `repeat(auto-fill, ${GRID_SIZE}px)`,
+          gridAutoRows: `${GRID_SIZE}px`,
+        }}>
           {items.map((item) => (
             <DesktopIcon
               key={item.id}

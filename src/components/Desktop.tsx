@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { CustomCursor } from './CustomCursor';
 import { Taskbar } from './Taskbar';
 import { StartMenu } from './StartMenu';
 import { WindowManager } from './WindowManager';
@@ -18,6 +19,7 @@ export const Desktop = () => {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isTaskViewOpen, setIsTaskViewOpen] = useState(false);
+  const [showCursor, setShowCursor] = useState(true);
   const { wallpaper } = useAppearance();
 
   return (
@@ -69,6 +71,9 @@ export const Desktop = () => {
 
       {/* Widgets */}
       <Widgets />
+
+      {/* Custom Cursor */}
+      {showCursor && <CustomCursor />}
 
       {/* Taskbar */}
       <Taskbar 

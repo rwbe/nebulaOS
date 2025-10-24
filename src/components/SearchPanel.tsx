@@ -15,6 +15,7 @@ const allApps: AppDefinition[] = [
   { id: 'paint', name: 'Paint', icon: 'paintbrush', component: 'Paint' },
   { id: 'photos', name: 'Fotos', icon: 'image', component: 'Photos' },
   { id: 'music', name: 'Música', icon: 'music', component: 'Music' },
+  { id: 'task-manager', name: 'Gerenciador de Tarefas', icon: 'activity', component: 'TaskManager' },
   { id: 'terminal', name: 'Terminal', icon: 'terminal', component: 'Terminal' },
   { id: 'vscode', name: 'VS Code', icon: 'code', component: 'VSCode' },
   { id: 'calculator', name: 'Calculadora', icon: 'calculator', component: 'Calculator' },

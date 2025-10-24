@@ -13,6 +13,7 @@ import { VSCodeApp } from './apps/VSCodeApp';
 import { NotepadApp } from './apps/NotepadApp';
 import { StoreApp } from './apps/StoreApp';
 import { SettingsApp } from './apps/SettingsApp';
+import { TaskManagerApp } from './apps/TaskManagerApp';
 import { TerminalApp } from './apps/TerminalApp';
 
 
@@ -25,6 +26,7 @@ const appComponents: Record<string, React.ComponentType> = {
   Music: MusicApp,
   Paint: PaintApp,
   Photos: PhotosApp,
+  TaskManager: TaskManagerApp,
   Terminal: TerminalApp,
   VSCode: VSCodeApp,
   Notepad: NotepadApp,

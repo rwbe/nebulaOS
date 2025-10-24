@@ -1,4 +1,4 @@
-import { Clock, Search, Wifi, Volume2, Battery } from 'lucide-react';
+import { Clock, Search, Wifi, Volume2, Battery, Bell } from 'lucide-react';
 import { FiSearch } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useWindows } from '@/contexts/WindowContext';
@@ -10,6 +10,7 @@ interface TaskbarProps {
   isStartMenuOpen: boolean;
   onQuickSettingsClick: () => void;
   onSearchClick: () => void;
+  onNotificationsClick: () => void;
 }
 
 const pinnedApps: AppDefinition[] = [
@@ -19,7 +20,7 @@ const pinnedApps: AppDefinition[] = [
   { id: 'store', name: 'Store', icon: 'shopping-bag', component: 'Store', isPinned: true },
 ];
 
-export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick, onSearchClick }: TaskbarProps) => {
+export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick, onSearchClick, onNotificationsClick }: TaskbarProps) => {
   const [time, setTime] = useState(new Date());
   const { windows, openWindow, focusWindow } = useWindows();
    const [showCalendar, setShowCalendar] = useState(false);
@@ -98,6 +99,15 @@ export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick, o
       <div className="flex-1" />
 
       {/* System Tray */}
+      <button 
+        onClick={onNotificationsClick}
+        className="taskbar-btn relative"
+        aria-label="Notificações"
+      >
+        <Bell className="w-4 h-4" />
+        <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+      </button>
+      
       <button 
         onClick={onQuickSettingsClick}
         className="flex items-center gap-2 taskbar-btn"

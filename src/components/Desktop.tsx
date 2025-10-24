@@ -4,6 +4,7 @@ import { StartMenu } from './StartMenu';
 import { WindowManager } from './WindowManager';
 import { QuickSettings } from './QuickSettings';
 import { SearchPanel } from './SearchPanel';
+import { DesktopGrid } from './DesktopGrid';
 import { useAppearance } from '@/contexts/AppearanceContext';
 
 export const Desktop = () => {
@@ -25,6 +26,9 @@ export const Desktop = () => {
       <div className="absolute inset-0 p-4">
         {/* Future: Desktop icons will go here */}
       </div>
+
+       {/* Desktop Icons Grid */}
+      <DesktopGrid />
 
       {/* NebulaOS*/}
       <WindowManager />

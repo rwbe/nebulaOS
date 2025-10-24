@@ -4,6 +4,7 @@ import { Window } from './Window';
 import { BrowserApp } from './apps/BrowserApp';
 import { CalculatorApp } from './apps/CalculatorApp';
 import { CalendarApp } from './apps/CalendarApp';
+import { ClockApp } from './apps/ClockApp';
 import { MailApp } from './apps/MailApp';
 import { MusicApp } from './apps/MusicApp';
 import { PaintApp } from './apps/PaintApp';
@@ -18,6 +19,7 @@ const appComponents: Record<string, React.ComponentType> = {
   Browser: BrowserApp,
   Calculator: CalculatorApp,
   Calendar: CalendarApp,
+  Clock: ClockApp,
   Mail: MailApp,
   Music: MusicApp,
   Paint: PaintApp,

@@ -24,7 +24,7 @@ interface Alarm {
 interface Tab {
   id: 'timer' | 'alarm' | 'stopwatch';
   label: string;
-  icon: LucideIcon; // ✅ Tipagem correta
+  icon: LucideIcon; 
 }
 
 export const ClockApp = () => {

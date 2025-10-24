@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { LoadingScreen } from '@/components/LoadingScreen';
+import { LockScreen } from '@/components/LockScreen';
 import { LoginScreen } from '@/components/LoginScreen';
 import { Desktop } from '@/components/Desktop';
 import { WindowProvider } from '@/contexts/WindowContext';
@@ -11,7 +12,7 @@ import { DesktopWindowBridge } from '@/components/DesktopWindowBridge';
 
 const IndexContent = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLocked } = useAuth();
 
     if (isLoading) {
     return <LoadingScreen onComplete={() => setIsLoading(false)} />;
@@ -20,6 +21,9 @@ const IndexContent = () => {
   if (!isAuthenticated) {
     return <LoginScreen onLogin={() => {}} />;
 }
+  if (isLocked) {
+    return <LockScreen onUnlock={() => {}} />;
+  }
   return <Desktop />;
 };
 

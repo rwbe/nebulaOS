@@ -1,4 +1,4 @@
-import { Clock, Search, Wifi, Volume2, Battery, Bell } from 'lucide-react';
+import { Clock, Search, Wifi, Volume2, Battery, Bell, LayoutGrid } from 'lucide-react';
 import { FiSearch } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useWindows } from '@/contexts/WindowContext';
@@ -11,6 +11,7 @@ interface TaskbarProps {
   onQuickSettingsClick: () => void;
   onSearchClick: () => void;
   onNotificationsClick: () => void;
+  onTaskViewClick: () => void;
 }
 
 const pinnedApps: AppDefinition[] = [
@@ -20,7 +21,7 @@ const pinnedApps: AppDefinition[] = [
   { id: 'store', name: 'Store', icon: 'shopping-bag', component: 'Store', isPinned: true },
 ];
 
-export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick, onSearchClick, onNotificationsClick }: TaskbarProps) => {
+export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick, onSearchClick, onNotificationsClick, onTaskViewClick }: TaskbarProps) => {
   const [time, setTime] = useState(new Date());
   const { windows, openWindow, focusWindow } = useWindows();
    const [showCalendar, setShowCalendar] = useState(false);
@@ -68,6 +69,16 @@ export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick, o
       >
         <FiSearch className="w-4 h-4" />
         <span className="text-sm text-muted-foreground">Pesquisar</span>
+      </button>
+
+       {/* Task View */}
+      <button
+        onClick={onTaskViewClick}
+        className="taskbar-btn flex items-center justify-center"
+        aria-label="Visão de Tarefas"
+        title="Visão de Tarefas (Win + Tab)"
+      >
+        <LayoutGrid className="w-4 h-4" />
       </button>
 
       {/* Separator */}

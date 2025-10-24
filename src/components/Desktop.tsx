@@ -6,13 +6,16 @@ import { QuickSettings } from './QuickSettings';
 import { SearchPanel } from './SearchPanel';
 import { DesktopGrid } from './DesktopGrid';
 import { NotificationCenter } from './NotificationCenter';
+import { TaskView } from './TaskView';
 import { useAppearance } from '@/contexts/AppearanceContext';
+import { AnimatePresence } from 'framer-motion';
 
 export const Desktop = () => {
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
   const [isQuickSettingsOpen, setIsQuickSettingsOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isTaskViewOpen, setIsTaskViewOpen] = useState(false);
   const { wallpaper } = useAppearance();
 
   return (
@@ -55,6 +58,13 @@ export const Desktop = () => {
         <NotificationCenter onClose={() => setIsNotificationsOpen(false)} />
       )}
 
+      {/* Task View */}
+      <AnimatePresence>
+        {isTaskViewOpen && (
+          <TaskView onClose={() => setIsTaskViewOpen(false)} />
+        )}
+      </AnimatePresence>
+
       {/* Taskbar */}
       <Taskbar 
         onStartClick={() => setIsStartMenuOpen(!isStartMenuOpen)}
@@ -62,6 +72,7 @@ export const Desktop = () => {
         onQuickSettingsClick={() => setIsQuickSettingsOpen(!isQuickSettingsOpen)}
         onSearchClick={() => setIsSearchOpen(true)}
         onNotificationsClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+        onTaskViewClick={() => setIsTaskViewOpen(!isTaskViewOpen)}
       />
     </div>
   );

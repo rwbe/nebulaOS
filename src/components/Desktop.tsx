@@ -8,6 +8,7 @@ import { SearchPanel } from './SearchPanel';
 import { DesktopGrid } from './DesktopGrid';
 import { NotificationCenter } from './NotificationCenter';
 import { TaskView } from './TaskView';
+import { Widgets } from './Widgets';
 import { useAppearance } from '@/contexts/AppearanceContext';
 import { AnimatePresence } from 'framer-motion';
 
@@ -65,6 +66,9 @@ export const Desktop = () => {
           <TaskView onClose={() => setIsTaskViewOpen(false)} />
         )}
       </AnimatePresence>
+
+      {/* Widgets */}
+      <Widgets />
 
       {/* Taskbar */}
       <Taskbar 

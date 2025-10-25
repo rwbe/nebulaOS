@@ -13,6 +13,7 @@ import { PaintApp } from './apps/PaintApp';
 import { PhotosApp } from './apps/PhotosApp';
 import { VSCodeApp } from './apps/VSCodeApp';
 import { NotepadApp } from './apps/NotepadApp';
+import { ScreenRecorderApp } from './apps/ScreenRecorderApp';
 import { StickyNotesApp } from './apps/StickyNotesApp';
 import { StoreApp } from './apps/StoreApp';
 import { SettingsApp } from './apps/SettingsApp';
@@ -34,6 +35,7 @@ const appComponents: Record<string, React.ComponentType> = {
   TaskManager: TaskManagerApp,
   Terminal: TerminalApp,
   VSCode: VSCodeApp,
+  ScreenRecorder: ScreenRecorderApp,
   StickyNotes: StickyNotesApp,
   Notepad: NotepadApp,
   Store: StoreApp,

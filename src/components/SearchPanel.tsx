@@ -21,6 +21,7 @@ const allApps: AppDefinition[] = [
   { id: 'vscode', name: 'VS Code', icon: 'code', component: 'VSCode' },
   { id: 'calculator', name: 'Calculadora', icon: 'calculator', component: 'Calculator' },
   { id: 'notepad', name: 'Bloco de Notas', icon: 'file-text', component: 'Notepad' },
+  { id: 'screen-recorder', name: 'Gravador de Tela', icon: 'video', component: 'ScreenRecorder' },
   { id: 'sticky-notes', name: 'Notas rápidas', icon: 'notes', component: 'StickyNotes' },
   { id: 'store', name: 'Microsoft Store', icon: 'shopping-bag', component: 'Store' },
   { id: 'settings', name: 'Configurações', icon: 'settings', component: 'Settings' },

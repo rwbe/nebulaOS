@@ -1,4 +1,6 @@
-import { Clock, Search, Wifi, Volume2, Battery, Bell, LayoutGrid, Globe, Mail, FileText, ShoppingBag } from 'lucide-react';
+import { 
+  Clock, Search, Wifi, Volume2, Battery, Bell, LayoutGrid, Globe, Mail, FileText, ShoppingBag, ChevronUp 
+} from 'lucide-react';
 import { FiSearch } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useWindows } from '@/contexts/WindowContext';
@@ -33,12 +35,20 @@ const getIconComponent = (iconName: string) => {
   return iconMap[iconName] || FileText;
 };
 
-export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick, onSearchClick, onNotificationsClick, onTaskViewClick }: TaskbarProps) => {
+export const Taskbar = ({
+  onStartClick, 
+  isStartMenuOpen, 
+  onQuickSettingsClick, 
+  onSearchClick, 
+  onNotificationsClick, 
+  onTaskViewClick 
+}: TaskbarProps) => {
   const [time, setTime] = useState(new Date());
   const { windows, openWindow, focusWindow, closeWindow } = useWindows();
   const [showCalendar, setShowCalendar] = useState(false);
   const [hoveredApp, setHoveredApp] = useState<string | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
+  const [showSystemTray, setShowSystemTray] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -70,165 +80,197 @@ export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick, o
   const appWindows = hoveredApp ? windows.filter(w => w.id === hoveredApp) : [];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 h-12 glass-strong shadow-lg z-50 flex items-center px-2 gap-1">
-      {/* Start Button */}
-      <button
-        onClick={onStartClick}
-        className={`taskbar-btn flex items-center justify-center ${isStartMenuOpen ? 'active' : ''}`}
-        aria-label="Menu Iniciar"
-      >
-        <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
-          <div className="grid grid-cols-2 gap-0.5">
-            <div className="w-1.5 h-1.5 bg-white rounded-sm" />
-            <div className="w-1.5 h-1.5 bg-white rounded-sm" />
-            <div className="w-1.5 h-1.5 bg-white rounded-sm" />
-            <div className="w-1.5 h-1.5 bg-white rounded-sm" />
-          </div>
-        </div>
-      </button>
-
-      {/* Search */}
-      <button 
-        onClick={(e) => {
-          e.stopPropagation();
-          onSearchClick();
-        }}
-        className="taskbar-btn flex items-center gap-2 px-4" 
-        aria-label="Pesquisar"
-      >
-        <FiSearch className="w-4 h-4" />
-        <span className="text-sm text-muted-foreground">Pesquisar</span>
-      </button>
-
-      {/* Task View */}
-      <button
-        onClick={onTaskViewClick}
-        className="taskbar-btn flex items-center justify-center"
-        aria-label="Visão de Tarefas"
-        title="Visão de Tarefas (Win + Tab)"
-      >
-        <LayoutGrid className="w-4 h-4" />
-      </button>
-
-      {/* Separator */}
-      <div className="w-px h-6 bg-border mx-1" />
-
-      {/* Pinned Apps */}
-      {pinnedApps.map(app => {
-        const isOpen = windows.some(w => w.id === app.id);
-        const isActive = windows.some(w => w.id === app.id && w.isActive);
-        const IconComponent = getIconComponent(app.icon);
-
-        return (
+    <>
+      <div className="fixed bottom-0 left-0 right-0 h-14 glass-ultra z-50 flex items-center justify-center gap-1 border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.3)]">
+        
+        {/* Left Section - Start, Search, Task View */}
+        <div className="absolute left-2 flex items-center gap-1">
+          
+          {/* Start Button */}
           <motion.button
-            key={app.id}
-            onClick={() => handleAppClick(app)}
-            onMouseEnter={(e) => handleAppHover(app.id, e)}
-            onMouseLeave={() => setHoveredApp(null)}
-            whileHover={{ scale: 1.1 }}
+            onClick={onStartClick}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`relative group flex items-center justify-center w-11 h-11 rounded-xl transition-all ${
-              isActive ? 'bg-white/10' : 'hover:bg-white/5'
-            }`}
-            aria-label={app.name}
+            className={`relative flex items-center justify-center w-11 h-11 rounded-xl transition-all ${isStartMenuOpen ? 'bg-primary/20 shadow-[0_0_20px_rgba(59,130,246,0.4)]' : 'hover:bg-white/5'}`}
+            aria-label="Menu Iniciar"
           >
-            <div
-              className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
-                isActive
-                  ? 'bg-gradient-to-br from-primary/30 to-purple-500/30 shadow-[0_0_15px_rgba(59,130,246,0.3)]'
-                  : 'bg-gradient-to-br from-white/5 to-white/10'
-              }`}
-            >
-              <IconComponent className={`w-5 h-5 ${isActive ? 'text-primary' : 'text-foreground/80'}`} />
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all ${isStartMenuOpen ? 'bg-primary shadow-[0_0_15px_rgba(59,130,246,0.3)]' : 'bg-gradient-to-br from-primary to-primary/80'}`}>
+              <div className="grid grid-cols-2 gap-0.5">
+                <div className="w-1.5 h-1.5 bg-white rounded-sm" />
+                <div className="w-1.5 h-1.5 bg-white rounded-sm" />
+                <div className="w-1.5 h-1.5 bg-white rounded-sm" />
+                <div className="w-1.5 h-1.5 bg-white rounded-sm" />
+              </div>
             </div>
-            {isActive && (
-              <motion.div
-                layoutId={`indicator-${app.id}`}
-                className="absolute bottom-0 w-full h-0.5 bg-primary rounded-full"
-              />
-            )}
-            {isOpen && !isActive && (
-              <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary/60 rounded-full" />
+            {isStartMenuOpen && (
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full" />
             )}
           </motion.button>
-        );
-      })}
 
-      {/* Other Running Windows */}
-      {windows
-        .filter(w => !pinnedApps.some(p => p.id === w.id))
-        .map(window => (
-          <motion.button
-            key={window.id}
-            onClick={() => focusWindow(window.id)}
-            whileHover={{ scale: 1.1 }}
+          {/* Search */}
+          <motion.button 
+            onClick={(e) => {
+              e.stopPropagation();
+              onSearchClick();
+            }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`relative group flex items-center justify-center w-11 h-11 rounded-xl transition-all ${
-              window.isActive ? 'bg-white/10' : 'hover:bg-white/5'
-            }`}
-            aria-label={window.name}
+            className="flex items-center gap-2 px-4 h-11 rounded-xl hover:bg-white/5 transition-all"
+            aria-label="Pesquisar"
           >
-            <div
-              className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
-                window.isActive
-                  ? 'bg-gradient-to-br from-primary/30 to-purple-500/30 shadow-[0_0_15px_rgba(59,130,246,0.3)]'
-                  : 'bg-gradient-to-br from-white/5 to-white/10'
-              }`}
-            >
-              <FileText className={`w-5 h-5 ${window.isActive ? 'text-primary' : 'text-foreground/80'}`} />
-            </div>
-            {window.isActive && (
-              <motion.div
-                layoutId={`indicator-${window.id}`}
-                className="absolute bottom-0 w-full h-0.5 bg-primary rounded-full"
-              />
-            )}
+            <FiSearch className="w-4 h-4" />
+            <span className="text-sm text-muted-foreground">Pesquisar</span>
           </motion.button>
-        ))}
 
-      {/* Spacer */}
-      <div className="flex-1" />
-
-      {/* System Tray */}
-      <button 
-        onClick={onNotificationsClick}
-        className="taskbar-btn relative"
-        aria-label="Notificações"
-      >
-        <Bell className="w-4 h-4" />
-        <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-      </button>
-
-      <button 
-        onClick={onQuickSettingsClick}
-        className="flex items-center gap-2 taskbar-btn"
-        aria-label="Configurações Rápidas"
-      >
-        <Wifi className="w-4 h-4" />
-        <Volume2 className="w-4 h-4" />
-        <Battery className="w-4 h-4" />
-      </button>
-
-      {/* Clock - Enhanced */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setShowCalendar(!showCalendar);
-        }}
-        className="taskbar-btn px-4 flex items-center gap-3 min-w-[140px]"
-      >
-        <div className="flex flex-col items-start leading-tight">
-          <span className="text-sm font-semibold">
-            {time.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
-          </span>
-          <span className="text-[11px] text-muted-foreground">
-            {time.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).replace('.', '')}
-          </span>
+          {/* Task View */}
+          <motion.button
+            onClick={onTaskViewClick}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center justify-center w-11 h-11 rounded-xl hover:bg-white/5 transition-all"
+            aria-label="Visão de Tarefas"
+            title="Visão de Tarefas (Win + Tab)"
+          >
+            <LayoutGrid className="w-4 h-4" />
+          </motion.button>
         </div>
-      </button>
 
-      {/* Calendar Popover */}
-      {showCalendar && <CalendarPopover onClose={() => setShowCalendar(false)} />}
+        {/* Center Section - Pinned Apps & Running Windows */}
+        <div className="flex items-center gap-1 px-2">
+          
+          {/* Pinned Apps */}
+          {pinnedApps.map(app => {
+            const isOpen = windows.some(w => w.id === app.id);
+            const isActive = windows.some(w => w.id === app.id && w.isActive);
+            const IconComponent = getIconComponent(app.icon);
+            
+            return (
+              <motion.button
+                key={app.id}
+                onClick={() => handleAppClick(app)}
+                onMouseEnter={(e) => handleAppHover(app.id, e)}
+                onMouseLeave={() => setHoveredApp(null)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className={`relative group flex items-center justify-center w-11 h-11 rounded-xl transition-all ${isActive ? 'bg-white/10' : 'hover:bg-white/5'}`}
+                aria-label={app.name}
+              >
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${isActive ? 'bg-gradient-to-br from-primary/30 to-purple-500/30 shadow-[0_0_15px_rgba(59,130,246,0.3)]' : 'bg-gradient-to-br from-white/5 to-white/10'}`}>
+                  <IconComponent className={`w-5 h-5 ${isActive ? 'text-primary' : 'text-foreground/80'}`} />
+                </div>
+                {isActive && (
+                  <motion.div 
+                    layoutId={`indicator-${app.id}`}
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-primary rounded-full"
+                    style={{ transform: 'translateX(-50%)' }}
+                  />
+                )}
+                {isOpen && !isActive && (
+                  <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary/60 rounded-full" />
+                )}
+              </motion.button>
+            );
+          })}
+
+          {/* Other Running Windows */}
+          {windows
+            .filter(w => !pinnedApps.some(p => p.id === w.id))
+            .map(window => (
+              <motion.button
+                key={window.id}
+                onClick={() => focusWindow(window.id)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className={`relative group flex items-center justify-center w-11 h-11 rounded-xl transition-all ${window.isActive ? 'bg-white/10' : 'hover:bg-white/5'}`}
+                aria-label={window.name}
+              >
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${window.isActive ? 'bg-gradient-to-br from-primary/30 to-purple-500/30 shadow-[0_0_15px_rgba(59,130,246,0.3)]' : 'bg-gradient-to-br from-white/5 to-white/10'}`}>
+                  <FileText className={`w-5 h-5 ${window.isActive ? 'text-primary' : 'text-foreground/80'}`} />
+                </div>
+                {window.isActive && (
+                  <motion.div 
+                    layoutId={`indicator-${window.id}`}
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-0.5 bg-primary rounded-full"
+                    style={{transform: 'translateX(-50%)'
+                }}
+                  />
+                )}
+              </motion.button>
+            ))}
+        </div>
+
+        {/* Right Section - System Tray */}
+        <div className="absolute right-2 flex items-center gap-1">
+          
+          {/* System Tray Toggle */}
+          <motion.button
+            onClick={() => setShowSystemTray(!showSystemTray)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`flex items-center justify-center w-9 h-9 rounded-lg transition-all ${showSystemTray ? 'bg-white/10' : 'hover:bg-white/5'}`}
+            aria-label="Mostrar ícones ocultos"
+          >
+            <ChevronUp className={`w-4 h-4 transition-transform ${showSystemTray ? 'rotate-180' : ''}`} />
+          </motion.button>
+
+          {/* Separator */}
+          <div className="w-px h-6 bg-border/50 mx-1" />
+
+          {/* Notifications */}
+          <motion.button 
+            onClick={onNotificationsClick}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="relative flex items-center justify-center w-9 h-9 rounded-lg hover:bg-white/5 transition-all"
+            aria-label="Notificações"
+          >
+            <Bell className="w-4 h-4" />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border border-background"></span>
+          </motion.button>
+          
+          {/* Quick Settings */}
+          <motion.button 
+            onClick={onQuickSettingsClick}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 px-3 h-9 rounded-lg hover:bg-white/5 transition-all"
+            aria-label="Configurações Rápidas"
+          >
+            <Wifi className="w-4 h-4" />
+            <Volume2 className="w-4 h-4" />
+            <Battery className="w-4 h-4" />
+          </motion.button>
+
+          {/* Separator */}
+          <div className="w-px h-6 bg-border/50 mx-1" />
+
+          {/* Clock & Date */}
+          <motion.button 
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowCalendar(!showCalendar);
+            }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="flex items-center gap-3 px-4 h-11 rounded-xl hover:bg-white/5 transition-all min-w-[140px]"
+          >
+            <div className="flex flex-col items-start leading-tight">
+              <span className="text-sm font-semibold">
+                {time.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+              </span>
+              <span className="text-[11px] text-muted-foreground">
+                {time.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })
+                  .replace('.', '')}
+              </span>
+            </div>
+          </motion.button>
+        </div>
+
+        {/* Calendar Popover */}
+        {showCalendar && (
+          <CalendarPopover onClose={() => setShowCalendar(false)} />
+        )}
+      </div>
 
       {/* Aero Peek Preview */}
       {hoveredApp && appWindows.length > 0 && (
@@ -239,6 +281,6 @@ export const Taskbar = ({ onStartClick, isStartMenuOpen, onQuickSettingsClick, o
           position={hoverPosition}
         />
       )}
-    </div>
+    </>
   );
 };

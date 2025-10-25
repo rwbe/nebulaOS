@@ -8,125 +8,128 @@
 
 @layer base {
   :root {
-    /* NebulaOS Light Theme */
-    --background: 0 0% 98%;
-    --foreground: 0 0% 10%;
+    /* Premium Dark Theme - Inspired by Modern Minimal Design */
+    --background: 220 15% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card: 220 15% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover: 220 15% 10%;
+    --popover-foreground: 0 0% 98%;
 
-    /* NebulaOS Blue */
-    --primary: 217 100% 50%;
+    /* Premium Blue Accent */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 217 100% 45%;
-    --primary-active: 217 100% 40%;
+    --primary-hover: 217 91% 65%;
+    --primary-active: 217 91% 55%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 10%;
+    --secondary: 220 15% 18%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 0 0% 94%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 217 100% 50%;
+    --accent: 217 91% 60%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
+    --border: 220 15% 20%;
+    --input: 220 15% 18%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    /* Premium OS Specific */
+    --taskbar-bg: 220 15% 10%;
+    --taskbar-hover: 220 15% 15%;
+    --taskbar-active: 217 91% 60%;
+    
+    --window-bg: 220 15% 12%;
+    --window-titlebar: 220 15% 10%;
+    --window-border: 220 15% 20%;
+    
+    --glass-bg: 220 15% 12%;
+    --glass-border: 220 15% 25%;
+    
+    --startmenu-bg: 220 15% 10%;
+    --startmenu-hover: 220 15% 16%;
+    
+    /* Premium Acrylic/Glass effect */
+    --blur-amount: 60px;
+    --glass-opacity: 0.75;
+    
+    /* Premium Shadows */
+    --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.3);
+    --shadow-md: 0 4px 8px -2px hsl(0 0% 0% / 0.4);
+    --shadow-lg: 0 12px 20px -4px hsl(0 0% 0% / 0.5);
+    --shadow-xl: 0 24px 32px -8px hsl(0 0% 0% / 0.6);
+    --shadow-window: 0 12px 48px hsl(0 0% 0% / 0.5);
+    
+    /* Premium Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(220 15% 10%), hsl(220 15% 15%));
+    --gradient-accent: linear-gradient(135deg, hsl(217 91% 60%), hsl(230 91% 65%));
+    --gradient-glass: linear-gradient(135deg, hsla(220 15% 15% / 0.8), hsla(220 15% 12% / 0.6));
+  }
+
+  .light {
+    /* Premium Light Theme - Soft and Elegant */
+    --background: 0 0% 98%;
+    --foreground: 220 15% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 12%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 217 91% 55%;
+    --primary-active: 217 91% 50%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 220 15% 12%;
+
+    --muted: 0 0% 94%;
+    --muted-foreground: 220 15% 45%;
+
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 88%;
     --input: 0 0% 90%;
-    --ring: 217 100% 50%;
+    --ring: 217 91% 60%;
 
-    --radius: 0.5rem;
-
-    /* NebulaOS Specific */
     --taskbar-bg: 0 0% 100%;
     --taskbar-hover: 0 0% 95%;
-    --taskbar-active: 217 100% 50%;
+    --taskbar-active: 217 91% 60%;
     
     --window-bg: 0 0% 100%;
     --window-titlebar: 0 0% 98%;
     --window-border: 0 0% 88%;
     
     --glass-bg: 0 0% 100%;
-    --glass-border: 0 0% 90%;
+    --glass-border: 0 0% 88%;
     
     --startmenu-bg: 0 0% 98%;
     --startmenu-hover: 0 0% 94%;
     
-    /* Acrylic/Glass effect */
-    --blur-amount: 40px;
-    --glass-opacity: 0.7;
+    --glass-opacity: 0.85;
     
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1);
-    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1);
-    --shadow-window: 0 8px 32px hsl(0 0% 0% / 0.12);
+    --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.08);
+    --shadow-md: 0 4px 8px -2px hsl(0 0% 0% / 0.12);
+    --shadow-lg: 0 12px 20px -4px hsl(0 0% 0% / 0.15);
+    --shadow-xl: 0 24px 32px -8px hsl(0 0% 0% / 0.18);
+    --shadow-window: 0 12px 48px hsl(0 0% 0% / 0.15);
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(217 100% 50%), hsl(230 100% 55%));
-    --gradient-accent: linear-gradient(135deg, hsl(217 100% 50%), hsl(280 100% 60%));
-  }
-
-  .dark {
-    /* NebulaOS Dark Theme */
-    --background: 0 0% 12%;
-    --foreground: 0 0% 95%;
-
-    --card: 0 0% 15%;
-    --card-foreground: 0 0% 95%;
-
-    --popover: 0 0% 15%;
-    --popover-foreground: 0 0% 95%;
-
-    --primary: 217 100% 50%;
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 217 100% 55%;
-    --primary-active: 217 100% 60%;
-
-    --secondary: 0 0% 20%;
-    --secondary-foreground: 0 0% 95%;
-
-    --muted: 0 0% 18%;
-    --muted-foreground: 0 0% 65%;
-
-    --accent: 217 100% 50%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 0 0% 25%;
-    --input: 0 0% 25%;
-    --ring: 217 100% 50%;
-
-    /* NebulaOS Dark Specific */
-    --taskbar-bg: 0 0% 15%;
-    --taskbar-hover: 0 0% 20%;
-    --taskbar-active: 217 100% 50%;
-    
-    --window-bg: 0 0% 18%;
-    --window-titlebar: 0 0% 16%;
-    --window-border: 0 0% 30%;
-    
-    --glass-bg: 0 0% 18%;
-    --glass-border: 0 0% 30%;
-    
-    --startmenu-bg: 0 0% 16%;
-    --startmenu-hover: 0 0% 22%;
-    
-    --glass-opacity: 0.6;
-    
-    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.3);
-    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.4);
-    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.5);
-    --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.6);
-    --shadow-window: 0 8px 32px hsl(0 0% 0% / 0.4);
+    --gradient-primary: linear-gradient(135deg, hsl(0 0% 98%), hsl(0 0% 100%));
+    --gradient-accent: linear-gradient(135deg, hsl(217 91% 60%), hsl(230 91% 65%));
   }
 }
 
@@ -138,6 +141,10 @@
   body {
     @apply bg-background text-foreground font-sans overflow-hidden;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+    font-variation-settings: 'opsz' auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   /* Disable text selection globally for OS-like feel */
@@ -251,3 +258,30 @@
   .cursor-resize {
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M14 4L20 4L20 10M10 20L4 20L4 14M20 4L14 10M4 20L10 14" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>') 12 12, nwse-resize !important;
   }
+
+   /* Taskbar styles */
+  .taskbar-btn {
+    @apply h-10 px-3 rounded-lg transition-all duration-200;
+    @apply hover:bg-[hsl(var(--taskbar-hover))];
+    @apply active:scale-95;
+  }
+
+  .taskbar-btn.active {
+    @apply bg-[hsl(var(--taskbar-active))]/10;
+    @apply text-[hsl(var(--taskbar-active))];
+    position: relative;
+  }
+
+  .taskbar-btn.active::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 2px;
+    background: hsl(var(--primary));
+    border-radius: 2px 2px 0 0;
+  }
+
+  

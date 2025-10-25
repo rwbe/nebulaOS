@@ -3,6 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { CustomCursor } from './CustomCursor';
 import { Taskbar } from './Taskbar';
 import { StartMenu } from './StartMenu';
+import { WallpaperRenderer } from './WallpaperRenderer';
 import { WindowManager } from './WindowManager';
 import { QuickSettings } from './QuickSettings';
 import { SearchPanel } from './SearchPanel';
@@ -35,6 +36,9 @@ export const Desktop = () => {
       <div className="absolute inset-0 p-4">
         {/* Future: Desktop icons will go here */}
       </div>
+
+      {/* Wallpaper Background */}
+      <WallpaperRenderer />
 
        {/* Desktop Icons Grid */}
       <DesktopGrid />

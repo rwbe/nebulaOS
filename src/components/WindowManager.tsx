@@ -5,6 +5,7 @@ import { BrowserApp } from './apps/BrowserApp';
 import { CalculatorApp } from './apps/CalculatorApp';
 import { CalendarApp } from './apps/CalendarApp';
 import { ClockApp } from './apps/ClockApp';
+import { DisplaySettingsApp } from './apps/DisplaySettingsApp';
 import { FileManagerApp } from './apps/FileManagerApp';
 import { MailApp } from './apps/MailApp';
 import { MusicApp } from './apps/MusicApp';
@@ -23,6 +24,7 @@ const appComponents: Record<string, React.ComponentType> = {
   Calculator: CalculatorApp,
   Calendar: CalendarApp,
   Clock: ClockApp,
+  DisplaySettings: DisplaySettingsApp,
   FileManager: FileManagerApp,
   Mail: MailApp,
   Music: MusicApp,

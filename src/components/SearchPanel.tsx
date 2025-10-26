@@ -9,6 +9,7 @@ interface SearchPanelProps {
 
 const allApps: AppDefinition[] = [
   { id: 'browser', name: 'Navegador', icon: 'globe', component: 'Browser' },
+  { id: 'clipboard', name: 'Área de Transferência', icon: 'clipboard', component: 'Clipboard' },
   { id: 'mail', name: 'Email', icon: 'mail', component: 'Mail' },
   { id: 'calendar', name: 'Calendário', icon: 'calendar', component: 'Calendar' },
   { id: 'clock', name: 'Relógio', icon: 'clock', component: 'Clock' },

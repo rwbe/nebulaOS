@@ -58,7 +58,7 @@ export const WindowProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const appsToMaximize = [
         'Browser', 'FileManager' ,'VSCode', 'Paint', 'Photos', 
         'Music', 'Settings', 'Mail', 'Store', 
-        'Paint', 'Screenshot', 'Clock', 'Notepad'
+        'Paint', 'Screenshot', 'Clock', 'Notepad', 'Clipboard'
       ];
       
       const shouldMaximize = appsToMaximize.includes(app.component);

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Minus, Square, X } from 'lucide-react';
+import { Minus, Square, X, Globe, Folder, Terminal, Activity, Camera, Video, Mic, Paintbrush, Clock, Clipboard, StickyNote, Calculator, Calendar, Mail, Music, Image, Code, FileText, ShoppingBag, Settings, AppWindow } from 'lucide-react';
 import { useWindows } from '@/contexts/WindowContext';
 import { WindowState } from '@/types/window';
 
@@ -14,6 +14,20 @@ export const Window = ({ window, children }: WindowProps) => {
   const [isResizing, setIsResizing] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const windowRef = useRef<HTMLDivElement>(null);
+
+  const getIconComponent = (iconName: string) => {
+    const iconMap: Record<string, any> = {
+      'globe': Globe, 'folder': Folder, 'terminal': Terminal, 'activity': Activity,
+      'camera': Camera, 'video': Video, 'mic': Mic, 'paintbrush': Paintbrush,
+      'clock': Clock, 'clipboard': Clipboard, 'sticky-note': StickyNote,
+      'calculator': Calculator, 'calendar': Calendar, 'mail': Mail,
+      'music': Music, 'image': Image, 'code': Code, 'file-text': FileText,
+      'shopping-bag': ShoppingBag, 'settings': Settings,
+    };
+    return iconMap[iconName] || AppWindow;
+  };
+
+  const IconComponent = getIconComponent(window.icon || 'app-window');
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -66,43 +80,48 @@ export const Window = ({ window, children }: WindowProps) => {
   return (
     <div
       ref={windowRef}
-      className={`fixed glass-strong rounded-xl shadow-window overflow-hidden flex flex-col animate-scale-in ${
-        window.isActive ? 'ring-2 ring-primary/20' : ''
+      className={`fixed glass-ultra rounded-xl overflow-hidden flex flex-col transition-all duration-200 ${
+        window.isActive ? 'ring-1 ring-primary/30 shadow-[0_0_60px_rgba(59,130,246,0.2)]' : 'shadow-[0_20_60px_rgba(0,0,0,0.5)]'
       }`}
       style={{
         ...style,
         zIndex: window.zIndex,
+        animation: 'scaleIn 0.2s ease-out',
       }}
       onMouseDown={() => focusWindow(window.id)}
     >
       {/* Title Bar */}
       <div
-        className="window-titlebar h-10 bg-[hsl(var(--window-titlebar))] border-b border-border flex items-center justify-between px-4 cursor-move"
+        className={`h-10 flex items-center justify-between px-4 cursor-move border-b transition-colors ${
+          window.isActive ? 'border-primary/20 bg-gradient-to-r from-primary/5 to-transparent' : 'border-border/50'
+        }`}
         onMouseDown={handleMouseDown}
         onDoubleClick={() => maximizeWindow(window.id)}
       >
-        <div className="flex items-center gap-2">
-          <span className="text-sm">📱</span>
-          <span className="text-sm font-medium">{window.title}</span>
+        <div className="flex items-center gap-2.5">
+          <div className={`p-1 rounded-lg ${window.isActive ? 'bg-primary/10' : 'bg-muted/30'}`}>
+            <IconComponent className={`w-3.5 h-3.5 ${window.isActive ? 'text-primary' : 'text-foreground/70'}`} />
+          </div>
+          <span className="text-sm font-medium tracking-wide">{window.title}</span>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center -mr-2">
           <button
             onClick={() => minimizeWindow(window.id)}
-            className="titlebar-btn"
+            className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5 active:bg-white/10 transition-colors"
             aria-label="Minimizar"
           >
             <Minus className="w-4 h-4" />
           </button>
           <button
             onClick={() => maximizeWindow(window.id)}
-            className="titlebar-btn"
+            className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/5 active:bg-white/10 transition-colors"
             aria-label="Maximizar"
           >
             <Square className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => closeWindow(window.id)}
-            className="titlebar-btn close"
+            className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-destructive/20 active:bg-destructive/30 hover:text-destructive transition-colors"
             aria-label="Fechar"
           >
             <X className="w-4 h-4" />
@@ -111,7 +130,7 @@ export const Window = ({ window, children }: WindowProps) => {
       </div>
 
       {/* Content */}
-      <div className="flex-1 bg-[hsl(var(--window-bg))] overflow-auto">
+      <div className="flex-1 bg-[hsl(var(--window-bg))] overflow-auto custom-scrollbar">
         {children}
       </div>
     </div>

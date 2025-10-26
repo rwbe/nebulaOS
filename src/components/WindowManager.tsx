@@ -20,6 +20,7 @@ import { StoreApp } from './apps/StoreApp';
 import { SettingsApp } from './apps/SettingsApp';
 import { TaskManagerApp } from './apps/TaskManagerApp';
 import { TerminalApp } from './apps/TerminalApp';
+import { VoiceRecorderApp } from './apps/VoiceRecorderApp';
 
 
 const appComponents: Record<string, React.ComponentType> = {
@@ -38,6 +39,7 @@ const appComponents: Record<string, React.ComponentType> = {
   Terminal: TerminalApp,
   VSCode: VSCodeApp,
   ScreenRecorder: ScreenRecorderApp,
+  VoiceRecorder: VoiceRecorderApp,
   StickyNotes: StickyNotesApp,
   Notepad: NotepadApp,
   Store: StoreApp,

@@ -26,6 +26,7 @@ const allApps: AppDefinition[] = [
   { id: 'sticky-notes', name: 'Notas rápidas', icon: 'notes', component: 'StickyNotes' },
   { id: 'store', name: 'Microsoft Store', icon: 'shopping-bag', component: 'Store' },
   { id: 'settings', name: 'Configurações', icon: 'settings', component: 'Settings' },
+  { id: 'voice-recorder', name: 'Gravador de Voz', icon: 'mic', component: 'VoiceRecorder' },
 ];
 
 const webSuggestions = [

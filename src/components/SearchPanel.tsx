@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { FiSearch, FiX, FiFile, FiSettings, FiGlobe, FiFolder } from 'react-icons/fi';
+import { Search, X, File, Settings, Globe, Folder, Zap, Clock } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useWindows } from '@/contexts/WindowContext';
 import { AppDefinition } from '@/types/window';
 
 interface SearchPanelProps {
   onClose: () => void;
 }
+
 
 const allApps: AppDefinition[] = [
   { id: 'browser', name: 'Navegador', icon: 'globe', component: 'Browser' },
@@ -96,126 +98,195 @@ export const SearchPanel = ({ onClose }: SearchPanelProps) => {
     onClose();
   };
 
+  const hasResults = results.apps.length > 0 || results.web.length > 0 || results.files.length > 0;
+
   return (
     <>
       {/* Backdrop */}
-      <div 
-        className="fixed inset-0 z-50 bg-black/40 animate-fade-in backdrop-blur-sm"
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md"
         onClick={onClose}
       />
 
-      {/* Search Panel */}
-      <div className="fixed top-1/4 left-1/2 -translate-x-1/2 w-[600px] glass-strong rounded-2xl shadow-window z-50 animate-scale-in overflow-hidden">
+      {/* Search Panel - Centered Container */}
+      <div className="fixed inset-0 z-[60] flex items-center justify-center pointer-events-none">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ type: 'spring', damping: 25, stiffness: 400 }}
+          className="w-[650px] max-w-[90vw] glass-ultra rounded-2xl shadow-2xl overflow-hidden border border-white/10 pointer-events-auto"
+        >
         {/* Search Input */}
-        <div className="p-6 pb-4 border-b border-border">
+        <div className="p-6 pb-4 border-b border-white/10 bg-gradient-to-r from-primary/5 to-transparent">
           <div className="relative">
-            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-primary animate-pulse-subtle" />
             <input
               type="text"
-              placeholder="Pesquisar apps, arquivos, configurações e web..."
+              placeholder="Pesquisar apps, arquivos, configurações..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-12 pr-12 py-4 bg-background/50 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary text-lg selectable"
+              className="w-full pl-12 pr-12 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 text-lg selectable transition-all placeholder-white/40"
               autoFocus
             />
-            {query && (
-              <button
-                onClick={() => setQuery('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-muted transition-colors"
-              >
-                <FiX className="w-5 h-5" />
-              </button>
-            )}
+            <AnimatePresence>
+              {query && (
+                <motion.button
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0, opacity: 0 }}
+                  onClick={() => setQuery('')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </motion.button>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
         {/* Results */}
-        <div className="max-h-[400px] overflow-auto p-4">
-          {!query && (
-            <div className="text-center py-12 text-muted-foreground">
-              <FiSearch className="w-12 h-12 mx-auto mb-3 opacity-50" />
-              <p>Digite para pesquisar apps, arquivos e web</p>
+        <div className="max-h-[500px] overflow-auto custom-scrollbar">
+          {!query ? (
+            <div className="p-8 text-center">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.1 }}
+                className="inline-block p-4 rounded-full bg-primary/10 mb-4"
+              >
+                <Zap className="w-8 h-8 text-primary" />
+              </motion.div>
+              <p className="text-sm text-muted-foreground">
+                Digite para buscar aplicativos, arquivos e muito mais
+              </p>
             </div>
-          )}
-
-          {query && results.apps.length === 0 && results.web.length === 0 && results.files.length === 0 && (
-            <div className="text-center py-12 text-muted-foreground">
-              <p>Nenhum resultado encontrado para "{query}"</p>
+          ) : !hasResults ? (
+            <div className="p-8 text-center">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="text-muted-foreground"
+              >
+                <Search className="w-12 h-12 mx-auto mb-2 opacity-30" />
+                <p className="text-sm">Nenhum resultado encontrado para "{query}"</p>
+              </motion.div>
             </div>
-          )}
+          ) : (
+            <div className="p-3 space-y-4">
+              {/* Apps Results */}
+              {results.apps.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05 }}
+                >
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-2">
+                    Aplicativos ({results.apps.length})
+                  </h3>
+                  <div className="space-y-1">
+                    {results.apps.map((app, index) => (
+                      <motion.button
+                        key={app.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.05 + index * 0.03 }}
+                        onClick={() => handleAppClick(app)}
+                        className="w-full p-3 rounded-xl hover:bg-white/10 transition-all flex items-center gap-3 text-left group"
+                      >
+                        <div className="p-2 rounded-lg bg-primary/20 group-hover:bg-primary/30 transition-colors">
+                          <Zap className="w-4 h-4 text-primary" />
+                        </div>
+                        <span className="text-sm font-medium">{app.name}</span>
+                      </motion.button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
 
-          {/* Apps */}
-          {results.apps.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-sm font-semibold text-muted-foreground mb-2 px-2">Aplicativos</h3>
-              <div className="space-y-1">
-                {results.apps.map((app) => (
-                  <button
-                    key={app.id}
-                    onClick={() => handleAppClick(app)}
-                    className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition-colors text-left"
-                  >
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <FiFolder className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <div className="font-medium">{app.name}</div>
-                      <div className="text-xs text-muted-foreground">Aplicativo</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
+              {/* Web Results */}
+              {results.web.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-2">
+                    Web ({results.web.length})
+                  </h3>
+                  <div className="space-y-1">
+                    {results.web.map((site, index) => (
+                      <motion.button
+                        key={site}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 + index * 0.03 }}
+                        onClick={() => handleWebSearch(site)}
+                        className="w-full p-3 rounded-xl hover:bg-white/10 transition-all flex items-center gap-3 text-left group"
+                      >
+                        <div className="p-2 rounded-lg bg-blue-500/20 group-hover:bg-blue-500/30 transition-colors">
+                          <Globe className="w-4 h-4 text-blue-400" />
+                        </div>
+                        <span className="text-sm font-medium">{site}</span>
+                      </motion.button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
 
-          {/* Web */}
-          {results.web.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-sm font-semibold text-muted-foreground mb-2 px-2">Web</h3>
-              <div className="space-y-1">
-                {results.web.map((site) => (
-                  <button
-                    key={site}
-                    onClick={() => handleWebSearch(site)}
-                    className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition-colors text-left"
-                  >
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <FiGlobe className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <div className="font-medium">{site}</div>
-                      <div className="text-xs text-muted-foreground">Pesquisar na web</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Files */}
-          {results.files.length > 0 && (
-            <div>
-              <h3 className="text-sm font-semibold text-muted-foreground mb-2 px-2">Arquivos</h3>
-              <div className="space-y-1">
-                {results.files.map((file) => (
-                  <button
-                    key={file.name}
-                    className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition-colors text-left"
-                  >
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <FiFile className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium truncate">{file.name}</div>
-                      <div className="text-xs text-muted-foreground">{file.path}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
+              {/* Files Results */}
+              {results.files.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15 }}
+                >
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 mb-2">
+                    Arquivos ({results.files.length})
+                  </h3>
+                  <div className="space-y-1">
+                    {results.files.map((file, index) => (
+                      <motion.button
+                        key={file.name}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.15 + index * 0.03 }}
+                        className="w-full p-3 rounded-xl hover:bg-white/10 transition-all flex items-center gap-3 text-left group"
+                      >
+                        <div className="p-2 rounded-lg bg-green-500/20 group-hover:bg-green-500/30 transition-colors">
+                          <File className="w-4 h-4 text-green-400" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-sm font-medium">{file.name}</div>
+                          <div className="text-xs text-muted-foreground">{file.path}</div>
+                        </div>
+                      </motion.button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
             </div>
           )}
         </div>
-      </div>
+
+        {/* Footer Hint */}
+        <div className="p-3 border-t border-white/10 bg-black/20">
+          <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+            <div className="flex items-center gap-1">
+              <kbd className="px-2 py-0.5 bg-white/10 rounded">Enter</kbd>
+              <span>para abrir</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <kbd className="px-2 py-0.5 bg-white/10 rounded">Esc</kbd>
+              <span>para fechar</span>
+            </div>
+          </div>
+        </div>
+        </motion.div>
+        </div>
     </>
   );
 };

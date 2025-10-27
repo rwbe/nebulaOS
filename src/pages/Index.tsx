@@ -10,6 +10,7 @@ import { AppearanceProvider } from '@/contexts/AppearanceContext';
 import { DesktopProvider } from '@/contexts/DesktopContext';
 import { DesktopWindowBridge } from '@/components/DesktopWindowBridge';
 import { WidgetsProvider } from '@/contexts/WidgetsContext';
+import { WorkspacesProvider } from '@/contexts/WorkspacesContext';
 
 const IndexContent = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +34,7 @@ const Index = () => {
     <ThemeProvider>
       <AuthProvider>
         <AppearanceProvider>
+          <WorkspacesProvider>
           <WidgetsProvider>
             <DesktopProvider>
               <WindowProvider>
@@ -40,7 +42,8 @@ const Index = () => {
                 <IndexContent />
               </WindowProvider>
             </DesktopProvider>
-          </WidgetsProvider>
+            </WidgetsProvider>
+          </WorkspacesProvider>
         </AppearanceProvider>
       </AuthProvider>
     </ThemeProvider>

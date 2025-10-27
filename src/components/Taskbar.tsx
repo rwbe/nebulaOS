@@ -5,9 +5,10 @@ import { FiSearch } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { useWindows } from '@/contexts/WindowContext';
 import { TaskbarPreview } from './WindowPreview';
+import { SystemTrayMenu } from './SystemTrayMenu';
 import { AppDefinition } from '@/types/window';
 import { CalendarPopover } from './CalendarPopover';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface TaskbarProps {
   onStartClick: () => void;
@@ -49,6 +50,7 @@ export const Taskbar = ({
   const [hoveredApp, setHoveredApp] = useState<string | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [showSystemTray, setShowSystemTray] = useState(false);
+  const [showTrayMenu, setShowTrayMenu] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -201,16 +203,20 @@ export const Taskbar = ({
 
         {/* Right Section - System Tray */}
         <div className="absolute right-2 flex items-center gap-1">
-          
           {/* System Tray Toggle */}
           <motion.button
-            onClick={() => setShowSystemTray(!showSystemTray)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowTrayMenu(!showTrayMenu);
+            }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`flex items-center justify-center w-9 h-9 rounded-lg transition-all ${showSystemTray ? 'bg-white/10' : 'hover:bg-white/5'}`}
-            aria-label="Mostrar ícones ocultos"
+            className={`flex items-center justify-center w-9 h-9 rounded-lg transition-all ${
+              showTrayMenu ? 'bg-white/10' : 'hover:bg-white/5'
+            }`}
+            aria-label="Menu do sistema"
           >
-            <ChevronUp className={`w-4 h-4 transition-transform ${showSystemTray ? 'rotate-180' : ''}`} />
+            <ChevronUp className={`w-4 h-4 transition-transform ${showTrayMenu ? 'rotate-180' : ''}`} />
           </motion.button>
 
           {/* Separator */}
@@ -270,6 +276,13 @@ export const Taskbar = ({
         {showCalendar && (
           <CalendarPopover onClose={() => setShowCalendar(false)} />
         )}
+      
+        {/* System Tray Menu */}
+        <AnimatePresence>
+          {showTrayMenu && (
+            <SystemTrayMenu onClose={() => setShowTrayMenu(false)} />
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Aero Peek Preview */}

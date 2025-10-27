@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import { 
-  Monitor, Palette, Globe, Shield, Info
+  Monitor, Palette, Globe, Shield, Info, Moon, Sun, 
+  Sparkles, Eye, Layers, PaintBucket, Image as ImageIcon,
+  Zap, Grid3x3
 } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useAppearance } from '@/contexts/AppearanceContext';
+import { motion } from 'framer-motion';
 
 const sections = [
   { id: 'system', name: 'Sistema', icon: Monitor },
@@ -13,6 +18,15 @@ const sections = [
 
 export const SettingsApp = () => {
   const [activeSection, setActiveSection] = useState('system');
+  const [personalizationTab, setPersonalizationTab] = useState('colors');
+  const { theme, toggleTheme } = useTheme();
+  const { wallpaper, setWallpaper, wallpapers, accentColor, setAccentColor } = useAppearance();
+  const [visualEffects, setVisualEffects] = useState({
+    transparency: true,
+    animations: true,
+    blur: true,
+  });
+
   const [systemInfo, setSystemInfo] = useState({
     cpuUsage: 0,
     memoryUsage: 0,
@@ -35,6 +49,22 @@ export const SettingsApp = () => {
       clearInterval(interval);
     };
   }, []);
+
+  const accentColors = [
+    { name: 'Azul Padrão', value: '217 100% 50%', hex: '#0078D4' },
+    { name: 'Roxo', value: '280 100% 60%', hex: '#9933FF' },
+    { name: 'Verde', value: '160 100% 40%', hex: '#00CC66' },
+    { name: 'Laranja', value: '30 100% 50%', hex: '#FF8C00' },
+    { name: 'Rosa', value: '340 100% 60%', hex: '#FF1493' },
+    { name: 'Ciano', value: '190 100% 50%', hex: '#00CED1' },
+  ];
+
+  const personalizationTabs = [
+    { id: 'colors', name: 'Cores', icon: PaintBucket },
+    { id: 'wallpaper', name: 'Papel de Parede', icon: ImageIcon },
+    { id: 'effects', name: 'Efeitos Visuais', icon: Sparkles },
+    { id: 'layout', name: 'Layout', icon: Grid3x3 },
+  ];
 
   return (
     <div className="flex h-full bg-background">
@@ -64,6 +94,7 @@ export const SettingsApp = () => {
 
       {/* Content */}
       <div className="flex-1 overflow-hidden flex flex-col">
+        {/* System Section */}
         {activeSection === 'system' && (
           <div className="flex-1 overflow-auto">
             <div className="p-8">
@@ -163,9 +194,268 @@ export const SettingsApp = () => {
           </div>
         )}
 
-        {/* Placeholder para outras seções */}
-        {(activeSection === 'personalization' || activeSection === 'network' || 
-          activeSection === 'privacy' || activeSection === 'about') && (
+        {/* Customization Section */}
+        {activeSection === 'personalization' && (
+          <div className="flex-1 overflow-auto">
+            <div className="p-8">
+              <h1 className="text-3xl font-semibold mb-2">Personalização</h1>
+              <p className="text-muted-foreground mb-6">
+                Personalize a aparência do seu sistema
+              </p>
+
+              {/* Tabs */}
+              <div className="flex gap-2 mb-6 border-b border-border">
+                {personalizationTabs.map(tab => {
+                  const Icon = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setPersonalizationTab(tab.id)}
+                      className={`flex items-center gap-2 px-4 py-2 border-b-2 transition-all ${
+                        personalizationTab === tab.id
+                          ? 'border-primary text-primary font-medium'
+                          : 'border-transparent text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span className="text-sm">{tab.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Tab Content */}
+              <div className="space-y-6">
+                {personalizationTab === 'colors' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {/* Theme */}
+                    <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Eye className="w-5 h-5 text-primary" />
+                        <h3 className="text-lg font-medium">Tema do Sistema</h3>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium">Modo {theme === 'dark' ? 'Escuro' : 'Claro'}</p>
+                          <p className="text-sm text-muted-foreground">
+                            Alterne entre modo claro e escuro para melhor conforto visual
+                          </p>
+                        </div>
+                        <button
+                          onClick={toggleTheme}
+                          className="p-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-all active:scale-95 shadow-sm"
+                        >
+                          {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Accent Colors */}
+                    <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
+                      <div className="flex items-center gap-2 mb-4">
+                        <PaintBucket className="w-5 h-5 text-primary" />
+                        <h3 className="text-lg font-medium">Cor de Destaque</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Escolha uma cor para destacar botões, links e elementos importantes
+                      </p>
+                      <div className="grid grid-cols-6 gap-3">
+                        {accentColors.map((color) => (
+                          <motion.button
+                            key={color.value}
+                            onClick={() => setAccentColor(color.value)}
+                            className={`relative w-full aspect-square rounded-xl border-2 transition-all ${
+                              accentColor === color.value 
+                                ? 'border-foreground ring-4 ring-primary/20 scale-105' 
+                                : 'border-border hover:scale-105'
+                            }`}
+                            style={{ backgroundColor: color.hex }}
+                            title={color.name}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            {accentColor === color.value && (
+                              <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="absolute inset-0 flex items-center justify-center"
+                              >
+                                <div className="w-6 h-6 bg-white/90 rounded-full flex items-center justify-center">
+                                  <div className="w-3 h-3 bg-foreground rounded-full" />
+                                </div>
+                              </motion.div>
+                            )}
+                          </motion.button>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {personalizationTab === 'wallpaper' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
+                      <div className="flex items-center gap-2 mb-4">
+                        <ImageIcon className="w-5 h-5 text-primary" />
+                        <h3 className="text-lg font-medium">Papéis de Parede</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Escolha um papel de parede para personalizar sua área de trabalho
+                      </p>
+                      
+                      {/* Current wallpaper preview */}
+                      <div className="mb-6 p-4 bg-muted/30 rounded-lg">
+                        <div className="flex items-center gap-4">
+                          <img 
+                            src={wallpaper.thumbnail} 
+                            alt={wallpaper.title}
+                            className="w-24 h-14 object-cover rounded-lg border border-border"
+                          />
+                          <div>
+                            <p className="font-medium">{wallpaper.title}</p>
+                            <p className="text-sm text-muted-foreground">{wallpaper.author}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-4">
+                        {wallpapers.map(wp => (
+                          <motion.button
+                            key={wp.id}
+                            onClick={() => setWallpaper(wp)}
+                            className={`group relative aspect-video rounded-lg overflow-hidden transition-all ${
+                              wallpaper.id === wp.id 
+                                ? 'ring-2 ring-primary shadow-lg scale-105' 
+                                : 'hover:ring-2 hover:ring-primary/50 hover:scale-105'
+                            }`}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <img 
+                              src={wp.thumbnail} 
+                              alt={wp.title} 
+                              className="w-full h-full object-cover"
+                            />
+                            {wallpaper.id === wp.id && (
+                              <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                                  <div className="w-4 h-4 bg-primary rounded-full" />
+                                </div>
+                              </div>
+                            )}
+                          </motion.button>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {personalizationTab === 'effects' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Sparkles className="w-5 h-5 text-primary" />
+                        <h3 className="text-lg font-medium">Efeitos Visuais</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-6">
+                        Customize os efeitos visuais do sistema
+                      </p>
+
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                          <div className="flex items-center gap-3">
+                            <Layers className="w-5 h-5 text-primary" />
+                            <div>
+                              <p className="font-medium">Transparência</p>
+                              <p className="text-sm text-muted-foreground">
+                                Efeito de vidro em janelas e menus
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => setVisualEffects({ ...visualEffects, transparency: !visualEffects.transparency })}
+                            className={`relative w-12 h-6 rounded-full transition-colors ${
+                              visualEffects.transparency ? 'bg-primary' : 'bg-muted'
+                            }`}
+                          >
+                            <motion.div
+                              className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm"
+                              animate={{ x: visualEffects.transparency ? 24 : 0 }}
+                              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                            />
+                          </button>
+                        </div>
+
+                        <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                          <div className="flex items-center gap-3">
+                            <Zap className="w-5 h-5 text-primary" />
+                            <div>
+                              <p className="font-medium">Animações</p>
+                              <p className="text-sm text-muted-foreground">
+                                Transições suaves entre telas
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => setVisualEffects({ ...visualEffects, animations: !visualEffects.animations })}
+                            className={`relative w-12 h-6 rounded-full transition-colors ${
+                              visualEffects.animations ? 'bg-primary' : 'bg-muted'
+                            }`}
+                          >
+                            <motion.div
+                              className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm"
+                              animate={{ x: visualEffects.animations ? 24 : 0 }}
+                              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                            />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {personalizationTab === 'layout' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Grid3x3 className="w-5 h-5 text-primary" />
+                        <h3 className="text-lg font-medium">Layout e Organização</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-6">
+                        Personalize o layout da área de trabalho
+                      </p>
+                      <div className="p-8 bg-muted/30 rounded-lg text-center">
+                        <Monitor className="w-12 h-12 mx-auto text-muted-foreground mb-3" />
+                        <p className="text-muted-foreground">
+                          Opções de layout em desenvolvimento
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Placeholder for other sections */}
+        {(activeSection === 'network' || activeSection === 'privacy' || activeSection === 'about') && (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
               <Monitor className="w-16 h-16 mx-auto text-muted-foreground mb-4" />

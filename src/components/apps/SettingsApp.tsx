@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { 
   Monitor, Palette, Globe, Shield, Info, Moon, Sun, 
   Sparkles, Eye, Layers, PaintBucket, Image as ImageIcon,
-  Zap, Grid3x3
+  Zap, Grid3x3, Wifi, WifiOff
 } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAppearance } from '@/contexts/AppearanceContext';
@@ -33,6 +33,12 @@ export const SettingsApp = () => {
     storageUsed: 0,
   });
 
+  const [networkStatus, setNetworkStatus] = useState({
+    online: navigator.onLine,
+    type: 'wifi',
+    speed: 'Rápida',
+  });
+
   useEffect(() => {
     const updateSystemInfo = () => {
       setSystemInfo({
@@ -45,8 +51,16 @@ export const SettingsApp = () => {
     updateSystemInfo();
     const interval = setInterval(updateSystemInfo, 3000);
 
+    const handleOnline = () => setNetworkStatus(prev => ({ ...prev, online: true }));
+    const handleOffline = () => setNetworkStatus(prev => ({ ...prev, online: false }));
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
     return () => {
       clearInterval(interval);
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
     };
   }, []);
 
@@ -454,8 +468,106 @@ export const SettingsApp = () => {
           </div>
         )}
 
+        {/* Network Section */}
+        {activeSection === 'network' && (
+          <div className="flex-1 overflow-auto">
+            <div className="p-8">
+              <h1 className="text-3xl font-semibold mb-2">Rede e Internet</h1>
+              <p className="text-muted-foreground mb-6">
+                Gerencie suas conexões de rede
+              </p>
+
+              <div className="space-y-6">
+                {/* Connection Status */}
+                <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
+                  <div className="flex items-center gap-3 mb-4">
+                    {networkStatus.online ? (
+                      <Wifi className="w-6 h-6 text-green-500" />
+                    ) : (
+                      <WifiOff className="w-6 h-6 text-destructive" />
+                    )}
+                    <div>
+                      <h3 className="text-lg font-medium">
+                        {networkStatus.online ? 'Conectado' : 'Desconectado'}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        {networkStatus.online ? `Conexão ${networkStatus.type.toUpperCase()} - ${networkStatus.speed}` : 'Sem conexão com a internet'}
+                      </p>
+                    </div>
+                  </div>
+
+                  {networkStatus.online && (
+                    <div className="grid grid-cols-3 gap-3 mt-4">
+                      <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
+                        <p className="text-xs text-muted-foreground mb-1">Velocidade</p>
+                        <p className="text-sm font-medium text-green-600 dark:text-green-400">{networkStatus.speed}</p>
+                      </div>
+                      <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                        <p className="text-xs text-muted-foreground mb-1">Tipo</p>
+                        <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{networkStatus.type.toUpperCase()}</p>
+                      </div>
+                      <div className="p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg">
+                        <p className="text-xs text-muted-foreground mb-1">Latência</p>
+                        <p className="text-sm font-medium text-purple-600 dark:text-purple-400">~50ms</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Network Settings */}
+                <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
+                  <h3 className="text-lg font-medium mb-4">Configurações de Rede</h3>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <Globe className="w-5 h-5 text-primary" />
+                        <div>
+                          <p className="font-medium">Modo Offline</p>
+                          <p className="text-sm text-muted-foreground">Desativar todas as conexões de rede</p>
+                        </div>
+                      </div>
+                      <button className={`relative w-12 h-6 rounded-full transition-colors bg-muted`}>
+                        <div className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm" />
+                      </button>
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <Zap className="w-5 h-5 text-primary" />
+                        <div>
+                          <p className="font-medium">Economia de Dados</p>
+                          <p className="text-sm text-muted-foreground">Reduzir uso de dados em segundo plano</p>
+                        </div>
+                      </div>
+                      <button className={`relative w-12 h-6 rounded-full transition-colors bg-muted`}>
+                        <div className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* DNS Settings */}
+                <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
+                  <h3 className="text-lg font-medium mb-4">Configurações Avançadas</h3>
+                  <div className="space-y-3">
+                    <div className="p-4 bg-muted/30 rounded-lg">
+                      <p className="text-sm font-medium mb-1">DNS Primário</p>
+                      <p className="text-xs text-muted-foreground">Automático (Provedor)</p>
+                    </div>
+                    <div className="p-4 bg-muted/30 rounded-lg">
+                      <p className="text-sm font-medium mb-1">Proxy</p>
+                      <p className="text-xs text-muted-foreground">Nenhum proxy configurado</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Placeholder for other sections */}
-        {(activeSection === 'network' || activeSection === 'privacy' || activeSection === 'about') && (
+        {(activeSection === 'privacy' || activeSection === 'about') && (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
               <Monitor className="w-16 h-16 mx-auto text-muted-foreground mb-4" />

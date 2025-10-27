@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { 
   Monitor, Palette, Globe, Shield, Info, Moon, Sun, 
   Sparkles, Eye, Layers, PaintBucket, Image as ImageIcon,
-  Zap, Grid3x3, Wifi, WifiOff
+  Zap, Grid3x3, Wifi, WifiOff, Lock, Cookie, MapPin, 
+  Camera, Mic, Bell, Trash2, Download, Check
 } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAppearance } from '@/contexts/AppearanceContext';
@@ -37,6 +38,14 @@ export const SettingsApp = () => {
     online: navigator.onLine,
     type: 'wifi',
     speed: 'Rápida',
+  });
+
+  const [privacySettings, setPrivacySettings] = useState({
+    location: false,
+    camera: false,
+    microphone: false,
+    notifications: true,
+    cookies: true,
   });
 
   useEffect(() => {
@@ -566,8 +575,165 @@ export const SettingsApp = () => {
           </div>
         )}
 
-        {/* Placeholder for other sections */}
-        {(activeSection === 'privacy' || activeSection === 'about') && (
+        {/* Privacy Section */}
+        {activeSection === 'privacy' && (
+          <div className="flex-1 overflow-auto">
+            <div className="p-8">
+              <h1 className="text-3xl font-semibold mb-2">Privacidade e Segurança</h1>
+              <p className="text-muted-foreground mb-6">
+                Controle suas configurações de privacidade
+              </p>
+
+              <div className="space-y-6">
+                {/* Permissions */}
+                <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Lock className="w-5 h-5 text-primary" />
+                    <h3 className="text-lg font-medium">Permissões do Navegador</h3>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <MapPin className="w-5 h-5" />
+                        <div>
+                          <p className="font-medium">Localização</p>
+                          <p className="text-sm text-muted-foreground">Permitir que sites acessem sua localização</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setPrivacySettings({...privacySettings, location: !privacySettings.location})}
+                        className={`relative w-12 h-6 rounded-full transition-colors ${privacySettings.location ? 'bg-primary' : 'bg-muted'}`}
+                      >
+                        <motion.div
+                          className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm"
+                          animate={{ x: privacySettings.location ? 24 : 0 }}
+                          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                        />
+                      </button>
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <Camera className="w-5 h-5" />
+                        <div>
+                          <p className="font-medium">Câmera</p>
+                          <p className="text-sm text-muted-foreground">Permitir que sites acessem sua câmera</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setPrivacySettings({...privacySettings, camera: !privacySettings.camera})}
+                        className={`relative w-12 h-6 rounded-full transition-colors ${privacySettings.camera ? 'bg-primary' : 'bg-muted'}`}
+                      >
+                        <motion.div
+                          className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm"
+                          animate={{ x: privacySettings.camera ? 24 : 0 }}
+                          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                        />
+                      </button>
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <Mic className="w-5 h-5" />
+                        <div>
+                          <p className="font-medium">Microfone</p>
+                          <p className="text-sm text-muted-foreground">Permitir que sites acessem seu microfone</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setPrivacySettings({...privacySettings, microphone: !privacySettings.microphone})}
+                        className={`relative w-12 h-6 rounded-full transition-colors ${privacySettings.microphone ? 'bg-primary' : 'bg-muted'}`}
+                      >
+                        <motion.div
+                          className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm"
+                          animate={{ x: privacySettings.microphone ? 24 : 0 }}
+                          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                        />
+                      </button>
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <Bell className="w-5 h-5" />
+                        <div>
+                          <p className="font-medium">Notificações</p>
+                          <p className="text-sm text-muted-foreground">Permitir que sites enviem notificações</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setPrivacySettings({...privacySettings, notifications: !privacySettings.notifications})}
+                        className={`relative w-12 h-6 rounded-full transition-colors ${privacySettings.notifications ? 'bg-primary' : 'bg-muted'}`}
+                      >
+                        <motion.div
+                          className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm"
+                          animate={{ x: privacySettings.notifications ? 24 : 0 }}
+                          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                        />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Data & Privacy */}
+                <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Cookie className="w-5 h-5 text-primary" />
+                    <h3 className="text-lg font-medium">Dados e Privacidade</h3>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <Cookie className="w-5 h-5" />
+                        <div>
+                          <p className="font-medium">Cookies</p>
+                          <p className="text-sm text-muted-foreground">Permitir sites a salvar cookies</p>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setPrivacySettings({...privacySettings, cookies: !privacySettings.cookies})}
+                        className={`relative w-12 h-6 rounded-full transition-colors ${privacySettings.cookies ? 'bg-primary' : 'bg-muted'}`}
+                      >
+                        <motion.div
+                          className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-sm"
+                          animate={{ x: privacySettings.cookies ? 24 : 0 }}
+                          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                        />
+                      </button>
+                    </div>
+
+                    <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-destructive/10 hover:bg-destructive/20 text-destructive rounded-lg transition-colors">
+                      <Trash2 className="w-4 h-4" />
+                      Limpar Dados de Navegação
+                    </button>
+
+                    <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-muted hover:bg-muted/80 rounded-lg transition-colors">
+                      <Download className="w-4 h-4" />
+                      Baixar Meus Dados
+                    </button>
+                  </div>
+                </div>
+
+                {/* Security Status */}
+                <div className="bg-card rounded-xl p-6 border border-green-500/20 shadow-sm">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 bg-green-500/10 rounded-full">
+                      <Check className="w-5 h-5 text-green-500" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium">Seu sistema está protegido</h3>
+                      <p className="text-sm text-muted-foreground">Todas as configurações de segurança estão ativas</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Placeholder for About Section */}
+        {activeSection === 'about' && (
           <div className="flex-1 flex items-center justify-center">
             <div className="text-center">
               <Monitor className="w-16 h-16 mx-auto text-muted-foreground mb-4" />

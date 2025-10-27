@@ -9,6 +9,7 @@ import { QuickSettings } from './QuickSettings';
 import { SearchPanel } from './SearchPanel';
 import { DesktopGrid } from './DesktopGrid';
 import { NotificationCenter } from './NotificationCenter';
+import { ParallaxWallpaper } from './ParallaxWallpaper';
 import { TaskView } from './TaskView';
 import { Widgets } from './Widgets';
 import { useAppearance } from '@/contexts/AppearanceContext';
@@ -21,7 +22,7 @@ export const Desktop = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isTaskViewOpen, setIsTaskViewOpen] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
-  const { wallpaper } = useAppearance();
+  const { wallpaper, visualEffects } = useAppearance();
 
   return (
     <div 
@@ -38,7 +39,12 @@ export const Desktop = () => {
       </div>
 
       {/* Wallpaper Background */}
-      <WallpaperRenderer />
+      {visualEffects.parallaxWallpaper ? (
+        <ParallaxWallpaper wallpaper={wallpaper.url} />
+      ) : (
+        <WallpaperRenderer />
+      )}
+
 
        {/* Desktop Icons Grid */}
       <DesktopGrid />

@@ -14,12 +14,20 @@ interface Wallpaper {
   videoUrl?: string;
 }
 
+interface VisualEffects {
+  parallaxWallpaper: boolean;
+  dynamicBlur: boolean;
+  richHoverAnimations: boolean;
+}
+
 interface AppearanceContextType {
   wallpaper: Wallpaper;
   setWallpaper: (wallpaper: Wallpaper) => void;
   accentColor: string;
   setAccentColor: (color: string) => void;
   wallpapers: Wallpaper[];
+  visualEffects: VisualEffects;
+  setVisualEffects: (effects: Partial<VisualEffects>) => void;
 }
 
 const defaultWallpapers: Wallpaper[] = [
@@ -176,6 +184,15 @@ export const AppearanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     return saved || '217 100% 50%'; // Default NebulaOS blue
   });
 
+    const [visualEffects, setVisualEffectsState] = useState<VisualEffects>(() => {
+    const saved = localStorage.getItem('nebula-visual-effects');
+    return saved ? JSON.parse(saved) : {
+      parallaxWallpaper: true,
+      dynamicBlur: true,
+      richHoverAnimations: true,
+    };
+  });
+
   useEffect(() => {
     localStorage.setItem('nebula-wallpaper', JSON.stringify(wallpaper));
   }, [wallpaper]);
@@ -197,8 +214,12 @@ export const AppearanceProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setAccentColorState(color);
   };
 
+    const setVisualEffects = (effects: Partial<VisualEffects>) => {
+    setVisualEffectsState(prev => ({ ...prev, ...effects }));
+  };
+
   return (
-    <AppearanceContext.Provider value={{ wallpaper, setWallpaper, accentColor, setAccentColor, wallpapers: defaultWallpapers }}>
+    <AppearanceContext.Provider value={{ wallpaper, setWallpaper, accentColor, setAccentColor, wallpapers: defaultWallpapers, visualEffects, setVisualEffects }}>
       {children}
     </AppearanceContext.Provider>
   );

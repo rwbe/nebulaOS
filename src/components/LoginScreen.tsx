@@ -106,25 +106,25 @@ export const LoginScreen = ({ onLogin }: LoginScreenProps) => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="space-y-4"
         >
-          {/* Email input */}
+          {/* User input */}
           <div className="relative">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 z-10 pointer-events-none">
               <User className="w-5 h-5" />
             </div>
             <input
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Email"
-              className="w-full h-14 pl-12 pr-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all backdrop-blur-sm"
+              placeholder="Usuário"
+              className="w-full h-14 pl-12 pr-4 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all backdrop-blur-sm relative z-0"
               autoFocus
             />
           </div>
 
           {/* Password input */}
           <div className="relative">
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 z-10 pointer-events-none">
               <Lock className="w-5 h-5" />
             </div>
             <input
@@ -133,12 +133,12 @@ export const LoginScreen = ({ onLogin }: LoginScreenProps) => {
               onChange={(e) => setPassword(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Senha"
-              className="w-full h-14 pl-12 pr-12 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all backdrop-blur-sm"
+              className="w-full h-14 pl-12 pr-12 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all backdrop-blur-sm relative z-0"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/60 transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/60 transition-colors z-10"
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>

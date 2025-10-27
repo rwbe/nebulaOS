@@ -575,7 +575,7 @@ export const SettingsApp = () => {
           </div>
         )}
 
-        {/* Privacy Section */}
+        {/* Privacy and Security Section */}
         {activeSection === 'privacy' && (
           <div className="flex-1 overflow-auto">
             <div className="p-8">
@@ -732,15 +732,66 @@ export const SettingsApp = () => {
           </div>
         )}
 
-        {/* Placeholder for About Section */}
+        {/* About Section */}
         {activeSection === 'about' && (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="text-center">
-              <Monitor className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-xl font-medium mb-2">Seção em Desenvolvimento</h3>
-              <p className="text-muted-foreground">
-                {sections.find(s => s.id === activeSection)?.name} estará disponível em breve
+          <div className="flex-1 overflow-auto">
+            <div className="p-8">
+              <h1 className="text-3xl font-semibold mb-2">Sobre o Sistema</h1>
+              <p className="text-muted-foreground mb-6">
+                Informações sobre o NebulaOS
               </p>
+
+              <div className="bg-card rounded-xl p-6 border border-border shadow-sm space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 flex items-center justify-center">
+                    <div className="grid grid-cols-2 gap-1">
+                      <div className="w-3 h-3 bg-gradient-to-br from-white to-gray-300 rounded-sm" />
+                      <div className="w-3 h-3 bg-gradient-to-br from-white to-gray-300 rounded-sm" />
+                      <div className="w-3 h-3 bg-gradient-to-br from-white to-gray-300 rounded-sm" />
+                      <div className="w-3 h-3 bg-gradient-to-br from-white to-gray-300 rounded-sm" />
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-semibold">NebulaOS</h2>
+                    <p className="text-muted-foreground">Sistema Operacional Web</p>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 bg-muted/30 rounded-lg">
+                    <p className="text-xs text-muted-foreground mb-1">Versão</p>
+                    <p className="text-lg font-semibold">1.0.0</p>
+                  </div>
+                  <div className="p-4 bg-muted/30 rounded-lg">
+                    <p className="text-xs text-muted-foreground mb-1">Build</p>
+                    <p className="text-lg font-semibold">2025.10.24</p>
+                  </div>
+                  <div className="p-4 bg-muted/30 rounded-lg">
+                    <p className="text-xs text-muted-foreground mb-1">Tecnologia</p>
+                    <p className="text-lg font-semibold">React + TypeScript</p>
+                  </div>
+                  <div className="p-4 bg-muted/30 rounded-lg">
+                    <p className="text-xs text-muted-foreground mb-1">Motor</p>
+                    <p className="text-lg font-semibold">Vite 5</p>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+                  <p className="text-sm">
+                    NebulaOS é um protótipo de sistema operacional web inspirado no design moderno do Windows,
+                    demonstrando conceitos de interface, gerenciamento de janelas e integração com serviços web.
+                  </p>
+                </div>
+
+                <div className="flex gap-3">
+                  <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
+                    Ver Atualizações
+                  </button>
+                  <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-muted hover:bg-muted/80 rounded-lg transition-colors">
+                    Termos de Uso
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
